@@ -1,4 +1,6 @@
-﻿class Program {
+﻿using System.Security.Cryptography.X509Certificates;
+
+class Program {
     static void Main(string[] args) {
         Trgovina trgovina = new Trgovina();
         trgovina.DodajProizvod("Mlijeko", 7.99, 5);
@@ -29,25 +31,80 @@
         }
     }
 }
+public class Proizvod {
+    public string Naziv { get; set; }
+    public Cijena cijenaProizvoda { get; set; }
+    public int KolicinaNaStanju { get; set; }
+    public Proizvod(string Naziv, Cijena Cijena, int kolicina){
+        this.Naziv = Naziv; 
+        this.cijenaProizvoda = Cijena;
+        this.KolicinaNaStanju = kolicina;
+    }
+
+
+}
+
+public abstract class Placanje {
+    public virtual void Plati(double ukupanIznos) {
+        Console.WriteLine($"Plaćanje u iznosu od {ukupanIznos:C2} je uspješno izvršeno.");
+    }
+}
+
+public class Kartice : Placanje {
+    public override void Plati(double ukupanIznos) {
+        Console.WriteLine($"Plaćanje karticom u iznosu od {ukupanIznos:C2} je uspješno izvršeno.");
+    }
+}
+
+public class Novcanice : Placanje {
+    public override void Plati(double ukupanIznos) {
+        Console.WriteLine($"Plaćanje novčanicama u iznosu od {ukupanIznos:C2} je uspješno izvršeno.");
+    }
+}
+
+public class Cekovi : Placanje {
+    public override void Plati(double ukupanIznos) {
+        Console.WriteLine($"Plaćanje čekovima u iznosu od {ukupanIznos:C2} je uspješno izvršeno.");
+    }
+}
+
+public class Cijena {
+    public double Iznos { get; set; }
+    public string Valuta { get; set; }
+
+    public Cijena(double iznos, string valuta) {
+        Iznos = iznos;
+        Valuta = valuta;
+    }
+
+    public override string ToString() {
+        return $"{Iznos:C2} {Valuta}";
+    }
+}
+
 
 class Trgovina {
     private List<Proizvod> popisProizvoda = new List<Proizvod>();
     private Placanje placanje;
     
     public void DodajProizvod(string naziv, double cijena, int kolicina) {
-        popisProizvoda.Add(new Proizvod { Naziv = naziv, Cijena = cijena, KolicinaNaStanju = kolicina });
+        Cijena cijenaProizvoda = new Cijena(cijena, "€");
+        Proizvod noviProizvod = new Proizvod(naziv, cijenaProizvoda, kolicina);
+        popisProizvoda.Add(noviProizvod);
     }
     
     public void IspisiPopisProizvoda() {
         Console.WriteLine("Popis proizvoda:");
         foreach (var proizvod in popisProizvoda) {
             if (proizvod.KolicinaNaStanju > 0) {
-                Console.WriteLine($"{proizvod.Naziv} - {proizvod.Cijena} kn");
+                Console.WriteLine($"{proizvod.Naziv} - {proizvod.cijenaProizvoda.Iznos} {proizvod.cijenaProizvoda.Valuta} (kom. {proizvod.KolicinaNaStanju})");
             }
         }
     }
     
     public void Kupovina() {
+        this.IspisiPopisProizvoda();
+
         Console.WriteLine("Unesite broj proizvoda za kupiti:");
         int brojProizvoda = Convert.ToInt32(Console.ReadLine());
         
@@ -62,7 +119,7 @@ class Trgovina {
             
             if (proizvod != null) {
                 kupljeniProizvodi.Add(proizvod);
-                ukupanIznos += proizvod.Cijena;
+                ukupanIznos += proizvod.cijenaProizvoda.Iznos;
                 proizvod.KolicinaNaStanju--;
             } else {
                 Console.WriteLine($"Proizvod {imeProizvoda} nije dostupan ili nema više na stanju.");
