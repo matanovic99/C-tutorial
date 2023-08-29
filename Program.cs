@@ -8,8 +8,6 @@
 
             Character player = new Character (klasa, ime);
 
-            BattleManager battle = new BattleManager();
-            battle.startBattle(player);
         }
     }
 }

@@ -10,6 +10,9 @@ namespace Program
         public string CharacterName;
         public int strenght = 10;
         public int magic = 0;
+        public int BloodThirst = 0;
+        public int food = 2;
+        public int water = 2;
 
 
         public Character (string CharacterClass, string CharacterName)
