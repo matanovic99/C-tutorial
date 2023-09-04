@@ -27,19 +27,54 @@ class Program {
                 default:
                     Console.WriteLine("Nepoznat izbor, pokušajte ponovno.");
                     break;
+        static void Main(string[] args){
+        IDostava dostava = new DostavaKurirskomSluzbom("Adresa za dostavu", DateTime.Now.AddDays(2)); {
+
+       
+        Console.WriteLine("Informacije o proizvodu:");
+        Console.WriteLine($"Proizvod: {proizvod.Naziv}");
+        Console.WriteLine($"Cijena: {proizvod.Cijena:C}");
+        Console.WriteLine($"Stopa PDV-a: {proizvod.StopaPdv}%");
+
+        dostava.IspisiPodatkeDostave();
+           }
+        }
             }
         }
     }
 }
+
+
 public class Proizvod {
     public string Naziv { get; set; }
     public Cijena cijenaProizvoda { get; set; }
     public int KolicinaNaStanju { get; set; }
-    public Proizvod(string Naziv, Cijena Cijena, int kolicina){
+    public double stopaPdv {get; set; }     
+    
+    public Proizvod(string Naziv, Cijena Cijena, int kolicina, double stopaPdv){
         this.Naziv = Naziv; 
         this.cijenaProizvoda = Cijena;
         this.KolicinaNaStanju = kolicina;
+        this.stopaPdv = stopaPdv;
     }
+    public class PDV
+{
+    PDV
+    public static double IzracunajPdv(Proizvod proizvod, double stopaPdv)
+    {
+        return (proizvod.Cijena * stopaPdv) / 100;
+    }
+
+    public static double IzracunajUkupniPdv(List<Proizvod> proizvodi, double stopaPdv)
+    {
+        double ukupniPdv = 0;
+        foreach (var proizvod in proizvodi)
+        {
+            ukupniPdv += IzracunajPdv(proizvod, stopaPdv);
+        }
+        return ukupniPdv;
+    }
+}
 
 
 }
@@ -90,6 +125,7 @@ class Trgovina {
     public void DodajProizvod(string naziv, double cijena, int kolicina) {
         Cijena cijenaProizvoda = new Cijena(cijena, "€");
         Proizvod noviProizvod = new Proizvod(naziv, cijenaProizvoda, kolicina);
+        PDV pdv = new PDV(naziv,cijenaProizvoda);
         popisProizvoda.Add(noviProizvod);
     }
     
@@ -124,6 +160,15 @@ class Trgovina {
             } else {
                 Console.WriteLine($"Proizvod {imeProizvoda} nije dostupan ili nema više na stanju.");
             }
+            Console.WriteLine("Unesite stopu PDV-a (u postocima):");
+        double stopaPdv = Convert.ToDouble(Console.ReadLine());
+
+        
+        double ukupniPdv = PDV.IzracunajUkupniPdv(kupljeniProizvodi, stopaPdv);
+
+        Console.WriteLine($"Ukupna cijena proizvoda: {ukupanIznos:C}");
+        Console.WriteLine($"Ukupan PDV: {ukupniPdv:C}");
+        Console.WriteLine($"Ukupno za platiti: {ukupanIznos + ukupniPdv:C}");
         }
         
         Console.WriteLine("Odaberite način plaćanja: 1. Kartice, 2. Novčanice, 3. Čekovi");
@@ -146,5 +191,81 @@ class Trgovina {
         
         placanje.Plati(ukupanIznos);
         Console.WriteLine("Hvala na kupovini!");
+    }
+}
+
+
+public interface IDostava
+{
+    string TipDostave { get; }
+    string Adresa { get; }
+    DateTime DatumDostave { get; }
+
+    void IspisiPodatkeDostave();
+}
+
+
+public class OsobnoPreuzimanje : IDostava
+{
+    public string TipDostave => "Osobno preuzimanje";
+    public string Adresa { get; }
+    public DateTime DatumDostave { get; }
+
+    public OsobnoPreuzimanje(string adresa, DateTime datumDostave)
+    {
+        Adresa = adresa;
+        DatumDostave = datumDostave;
+    }
+
+    public void IspisiPodatkeDostave()
+    {
+        Console.WriteLine("Podaci o dostavi:");
+        Console.WriteLine($"Tip dostave: {TipDostave}");
+        Console.WriteLine($"Adresa: {Adresa}");
+        Console.WriteLine($"Datum dostave: {DatumDostave:d}");
+    }
+}
+
+
+public class DostavaPostom : IDostava
+{
+    public string TipDostave => "Dostava poštom";
+    public string Adresa { get; }
+    public DateTime DatumDostave { get; }
+
+    public DostavaPostom(string adresa, DateTime datumDostave)
+    {
+        Adresa = adresa;
+        DatumDostave = datumDostave;
+    }
+
+    public void IspisiPodatkeDostave()
+    {
+        Console.WriteLine("Podaci o dostavi:");
+        Console.WriteLine($"Tip dostave: {TipDostave}");
+        Console.WriteLine($"Adresa: {Adresa}");
+        Console.WriteLine($"Datum dostave: {DatumDostave:d}");
+    }
+}
+
+
+public class DostavaKurirskomSluzbom : IDostava
+{
+    public string TipDostave => "Dostava kurirskom službom";
+    public string Adresa { get; }
+    public DateTime DatumDostave { get; }
+
+    public DostavaKurirskomSluzbom(string adresa, DateTime datumDostave)
+    {
+        Adresa = adresa;
+        DatumDostave = datumDostave;
+    }
+
+    public void IspisiPodatkeDostave()
+    {
+        Console.WriteLine("Podaci o dostavi:");
+        Console.WriteLine($"Tip dostave: {TipDostave}");
+        Console.WriteLine($"Adresa: {Adresa}");
+        Console.WriteLine($"Datum dostave: {DatumDostave:d}");
     }
 }
