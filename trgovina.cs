@@ -4,7 +4,7 @@ class Trgovina {
     
     public void DodajProizvod(string naziv, double cijena, int kolicina) {
         Cijena cijenaProizvoda = new Cijena(cijena, "€");
-        Proizvod noviProizvod = new Proizvod(naziv, cijenaProizvoda, kolicina);
+        Proizvod noviProizvod = new Proizvod(naziv, cijenaProizvoda, kolicina, stopaPdv);
         PDV pdv = new PDV(naziv,cijenaProizvoda);
         popisProizvoda.Add(noviProizvod);
     }

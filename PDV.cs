@@ -1,9 +1,9 @@
  public class PDV
 {
-    PDV
+    
     public static double IzracunajPdv(Proizvod proizvod, double stopaPdv)
     {
-        return (proizvod.Cijena * stopaPdv) / 100;
+        return (proizvod.cijenaProizvoda.Iznos * stopaPdv) / 100;
     }
 
     public static double IzracunajUkupniPdv(List<Proizvod> proizvodi, double stopaPdv)
