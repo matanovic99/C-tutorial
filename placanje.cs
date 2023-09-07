@@ -22,4 +22,3 @@ public class Cekovi : Placanje {
     }
 }
 
-//definira mogucnosti placanja i povlaci iz drugih file podatke

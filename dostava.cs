@@ -43,3 +43,26 @@ public class DostavaKurirskomSluzbom : IDostava
         Console.WriteLine($"Datum dostave: {DatumDostave:d}");
     }
 }
+
+public class OsobnoPreuzimanje : IDostava
+{
+     public string TipDostave { get; set; }  
+    public string Adresa { get; set; }
+    public DateTime DatumDostave { get; set; }
+
+    public OsobnoPreuzimanje(string adresa, DateTime datumDostave)
+    {
+        this.TipDostave = "	Osobno preuzimanje";
+        this.Adresa= adresa;
+        this.DatumDostave = datumDostave ;
+    }
+     public void Isporuci()
+    {
+        Console.WriteLine("Podaci o dostavi:");
+        Console.WriteLine($"Tip dostave: {TipDostave}");
+        Console.WriteLine($"Adresa: {Adresa}");
+        Console.WriteLine($"Datum dostave: {DatumDostave:d}");
+    }
+
+
+}

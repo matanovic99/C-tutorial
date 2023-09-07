@@ -1,19 +1,27 @@
 ﻿class Program
 {
-    private static object proizvod;
+    private List<Proizvod> proizvodi = new List<Proizvod>();
+
+
+  
 
     static void Main(string[] args)
+
     {
         Trgovina trgovina = new Trgovina();
-        trgovina.DodajProizvod("Mlijeko", 7.99, 5);
-        trgovina.DodajProizvod("Kruh", 3.49, 10);
-        trgovina.DodajProizvod("Jogurt", 4.29, 2);
+        trgovina.DodajProizvod("Mlijeko", new Cijena(7.99, "€"), 5);
+        trgovina.DodajProizvod("Kruh", new Cijena(3.49, "€"), 10);
+        trgovina.DodajProizvod("Jogurt", new Cijena(4.29, "€"), 2);
 
         while (true)
         {
+            Console.WriteLine("*********************************************************");
             Console.WriteLine("1. Ispis popisa proizvoda");
+            Console.WriteLine("*********************************************************");
             Console.WriteLine("2. Kupovina proizvoda");
+            Console.WriteLine("*********************************************************");
             Console.WriteLine("3. Izlaz");
+            Console.WriteLine("*********************************************************");
 
             int izbor = Convert.ToInt32(Console.ReadLine());
 
@@ -31,21 +39,43 @@
                 default:
                     Console.WriteLine("Nepoznat izbor, pokušajte ponovno.");
                     break;
-                    
-                    
-                        IDostava dostava = new DostavaKurirskomSluzbom("Adresa za dostavu", DateTime.Now.AddDays(2));
 
 
-                        Console.WriteLine("Informacije o proizvodu:");
-                        Console.WriteLine($"Proizvod: {proizvod.Naziv}");
-                        Console.WriteLine(value: $"Cijena: {proizvod.cijenaProizvoda.Iznos:C}");
-                        Console.WriteLine($"Stopa PDV-a: {stopaPdv.iznos}%");
+                
+                    int izborProizvoda = Convert.ToInt32(Console.ReadLine());
+                    Proizvod proizvod = [izborProizvoda]; 
 
-                        dostava.Isporuci();
+                    IDostava dostava = new DostavaKurirskomSluzbom("Adresa za dostavu", DateTime.Now.AddDays(2));
 
-                    }
+                    Console.WriteLine("Informacije o proizvodu:");
+                    Console.WriteLine($"Proizvod: {proizvod.Naziv}");
+                    Console.WriteLine($"Cijena: {proizvod.cijenaProizvoda}");
+                    Console.WriteLine($"Stopa PDV-a: {proizvod.PDV}%");
+
+                    dostava.Isporuci();
+
+                    IDostava dostava1 = new DostavaPostom("Adresa za dostavu", DateTime.Now.AddDays(1));
+
+                    Console.WriteLine("Informacije o proizvodu:");
+                    Console.WriteLine($"Proizvod: {proizvod.Naziv}");
+                    Console.WriteLine($"Cijena: {proizvod.cijenaProizvoda}");
+                    Console.WriteLine($"Stopa PDV-a: {proizvod.PDV}%");
+
+                    dostava1.Isporuci();
+
+                    IDostava dostava2 = new OsobnoPreuzimanje("Adresa za dostavu", DateTime.Now.AddDays(2));
+
+                    Console.WriteLine("Informacije o proizvodu:");
+                    Console.WriteLine($"Proizvod: {proizvod.Naziv}");
+                    Console.WriteLine($"Cijena: {proizvod.cijenaProizvoda}");
+                    Console.WriteLine($"Stopa PDV-a: {proizvod.PDV}%");
+
+                    dostava2.Isporuci();
+
+
             }
         }
     }
+}
 
 
