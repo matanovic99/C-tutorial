@@ -34,55 +34,48 @@ public class Trgovina
             {
                 double ukupnaCijena = kolicina * odabraniProizvod.cijenaProizvoda.Iznos;
                 Console.WriteLine($"Ukupna cijena: {ukupnaCijena:C}");
-                double pdv = PDV.IzracunajPdv( odabraniProizvod);
-                Console.WriteLine("Cijena sa Pdv: {pdv}");
+                double pdv = PDV.IzracunajPdv(odabraniProizvod);
+                Console.WriteLine($"Cijena sa Pdv: {pdv}");
 
+
+                Console.WriteLine("Koji tip dostave zelite:");
+                Console.WriteLine("*********************************************************");
+                Console.WriteLine("1. Kurirs");
+                Console.WriteLine("*********************************************************");
+                Console.WriteLine("2. posta");
+                Console.WriteLine("*********************************************************");
+                Console.WriteLine("3. osobno");
+                Console.WriteLine("*********************************************************");
+                int tipDostave = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Unesite adresu dostave: ");
+                string adresa = Console.ReadLine();
+                IDostava dostava = null;
+                if (tipDostave == 1)
+                {
+                     dostava = new DostavaKurirskomSluzbom(adresa, DateTime.Now.AddDays(2));
+
+
+                }
+                else if (tipDostave == 2)
+                {
+                    dostava = new DostavaPostom(adresa, DateTime.Now.AddDays(2));
+
+                }
+                else  
+                {
+                     dostava = new OsobnoPreuzimanje(adresa, DateTime.Now.AddDays(2));
+
+                }
                 
-                IDostava dostava = new DostavaKurirskomSluzbom("Adresa za dostavu", DateTime.Now.AddDays(2));
-
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine("Informacije o proizvodu:");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine($"Proizvod: {odabraniProizvod.Naziv}");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine($"Cijena: {odabraniProizvod.cijenaProizvoda}");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine($"Stopa PDV-a: {odabraniProizvod}%");
-                Console.WriteLine("*********************************************************");
-
                 dostava.Isporuci();
 
-                 IDostava dostava1 = new DostavaPostom("Adresa za dostavu", DateTime.Now.AddDays(2));
-
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine("Informacije o proizvodu:");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine($"Proizvod: {odabraniProizvod.Naziv}");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine($"Cijena: {odabraniProizvod.cijenaProizvoda}");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine($"Stopa PDV-a: {odabraniProizvod}%");
-                Console.WriteLine("*********************************************************");
-
-                dostava.Isporuci();
-
-                IDostava dostava2 = new OsobnoPreuzimanje("Adresa za dostavu", DateTime.Now.AddDays(2));
-
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine("Informacije o proizvodu:");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine($"Proizvod: {odabraniProizvod.Naziv}");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine($"Cijena: {odabraniProizvod.cijenaProizvoda}");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine($"Stopa PDV-a: {odabraniProizvod}%");
-                Console.WriteLine("*********************************************************");
-
-                dostava.Isporuci();
+               
 
 
 
-                
+
+
+
                 odabraniProizvod.KolicinaNaStanju -= kolicina;
             }
             else

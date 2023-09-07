@@ -42,36 +42,10 @@
 
 
                 
-                    int izborProizvoda = Convert.ToInt32(Console.ReadLine());
-                    Proizvod proizvod = [izborProizvoda]; 
+                    
+                    
 
-                    IDostava dostava = new DostavaKurirskomSluzbom("Adresa za dostavu", DateTime.Now.AddDays(2));
-
-                    Console.WriteLine("Informacije o proizvodu:");
-                    Console.WriteLine($"Proizvod: {proizvod.Naziv}");
-                    Console.WriteLine($"Cijena: {proizvod.cijenaProizvoda}");
-                    Console.WriteLine($"Stopa PDV-a: {proizvod.PDV}%");
-
-                    dostava.Isporuci();
-
-                    IDostava dostava1 = new DostavaPostom("Adresa za dostavu", DateTime.Now.AddDays(1));
-
-                    Console.WriteLine("Informacije o proizvodu:");
-                    Console.WriteLine($"Proizvod: {proizvod.Naziv}");
-                    Console.WriteLine($"Cijena: {proizvod.cijenaProizvoda}");
-                    Console.WriteLine($"Stopa PDV-a: {proizvod.PDV}%");
-
-                    dostava1.Isporuci();
-
-                    IDostava dostava2 = new OsobnoPreuzimanje("Adresa za dostavu", DateTime.Now.AddDays(2));
-
-                    Console.WriteLine("Informacije o proizvodu:");
-                    Console.WriteLine($"Proizvod: {proizvod.Naziv}");
-                    Console.WriteLine($"Cijena: {proizvod.cijenaProizvoda}");
-                    Console.WriteLine($"Stopa PDV-a: {proizvod.PDV}%");
-
-                    dostava2.Isporuci();
-
+                    
 
             }
         }

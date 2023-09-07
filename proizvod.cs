@@ -3,7 +3,7 @@ public class Proizvod
     public string Naziv { get; set; }
     public Cijena cijenaProizvoda { get; set; }
     public int KolicinaNaStanju { get; set; }
-    
+    public object PDV { get; internal set; }
 
     public Proizvod(string Naziv, Cijena Cijena, int kolicina)
     {
