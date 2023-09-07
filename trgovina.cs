@@ -1,75 +1,61 @@
-class Trgovina {
-    private List<Proizvod> popisProizvoda = new List<Proizvod>();
-    private Placanje placanje;
-    
-    public void DodajProizvod(string naziv, double cijena, int kolicina) {
-        Cijena cijenaProizvoda = new Cijena(cijena, "€");
-        Proizvod noviProizvod = new Proizvod(naziv, cijenaProizvoda, kolicina, stopaPdv);
-        PDV pdv = new PDV(naziv,cijenaProizvoda);
-        popisProizvoda.Add(noviProizvod);
+public class Trgovina
+{
+    private List<Proizvod> proizvodi = new List<Proizvod>();
+
+    public void DodajProizvod(string naziv, Cijena cijena, int kolicina, double stopaPdv)
+    {
+        Proizvod proizvod = new Proizvod(naziv, cijena, kolicina, stopaPdv);
+        proizvodi.Add(proizvod);
     }
-    
-    public void IspisiPopisProizvoda() {
+
+    public void IspisiPopisProizvoda()
+    {
         Console.WriteLine("Popis proizvoda:");
-        foreach (var proizvod in popisProizvoda) {
-            if (proizvod.KolicinaNaStanju > 0) {
-                Console.WriteLine($"{proizvod.Naziv} - {proizvod.cijenaProizvoda.Iznos} {proizvod.cijenaProizvoda.Valuta} (kom. {proizvod.KolicinaNaStanju})");
-            }
+        foreach (Proizvod proizvod in proizvodi)
+        {
+            Console.WriteLine($"Naziv: {proizvod.Naziv}, Cijena: {proizvod.cijenaProizvoda}, Dostupno: {proizvod.KolicinaNaStanju}");
         }
     }
-    
-    public void Kupovina() {
-        this.IspisiPopisProizvoda();
 
-        Console.WriteLine("Unesite broj proizvoda za kupiti:");
-        int brojProizvoda = Convert.ToInt32(Console.ReadLine());
-        
-        List<Proizvod> kupljeniProizvodi = new List<Proizvod>();
-        double ukupanIznos = 0;
-        
-        for (int i = 0; i < brojProizvoda; i++) {
-            Console.WriteLine($"Unesite ime proizvoda {i + 1}:");
-            string imeProizvoda = Console.ReadLine();
-            
-            Proizvod proizvod = popisProizvoda.Find(p => p.Naziv == imeProizvoda && p.KolicinaNaStanju > 0);
-            
-            if (proizvod != null) {
-                kupljeniProizvodi.Add(proizvod);
-                ukupanIznos += proizvod.cijenaProizvoda.Iznos;
-                proizvod.KolicinaNaStanju--;
-            } else {
-                Console.WriteLine($"Proizvod {imeProizvoda} nije dostupan ili nema više na stanju.");
+    public void Kupovina()
+    {
+        IspisiPopisProizvoda();
+        Console.Write("Unesite naziv proizvoda koji želite kupiti: ");
+        string nazivProizvoda = Console.ReadLine();
+
+        Proizvod odabraniProizvod = proizvodi.Find(proizvod => proizvod.Naziv.Equals(nazivProizvoda, StringComparison.OrdinalIgnoreCase));
+
+        if (odabraniProizvod != null)
+        {
+            Console.Write("Unesite količinu koju želite kupiti: ");
+            int kolicina = Convert.ToInt32(Console.ReadLine());
+
+            if (kolicina > 0 && kolicina <= odabraniProizvod.KolicinaNaStanju)
+            {
+                double ukupnaCijena = kolicina * odabraniProizvod.cijenaProizvoda.Iznos;
+                Console.WriteLine($"Ukupna cijena: {ukupnaCijena:C}");
+
+                // Ovdje možete dodati logiku za dostavu proizvoda ako želite
+                IDostava dostava = new DostavaKurirskomSluzbom("Adresa za dostavu", DateTime.Now.AddDays(2));
+
+                Console.WriteLine("Informacije o proizvodu:");
+                Console.WriteLine($"Proizvod: {odabraniProizvod.Naziv}");
+                Console.WriteLine($"Cijena: {odabraniProizvod.cijenaProizvoda}");
+                Console.WriteLine($"Stopa PDV-a: {odabraniProizvod.stopaPdv}%");
+
+                dostava.Isporuci();
+
+                
+                odabraniProizvod.KolicinaNaStanju -= kolicina;
             }
-            Console.WriteLine("Unesite stopu PDV-a (u postocima):");
-        double stopaPdv = Convert.ToDouble(Console.ReadLine());
-
-        
-        double ukupniPdv = PDV.IzracunajUkupniPdv(kupljeniProizvodi, stopaPdv);
-
-        Console.WriteLine($"Ukupna cijena proizvoda: {ukupanIznos:C}");
-        Console.WriteLine($"Ukupan PDV: {ukupniPdv:C}");
-        Console.WriteLine($"Ukupno za platiti: {ukupanIznos + ukupniPdv:C}");
+            else
+            {
+                Console.WriteLine("Nevažeća količina ili nedostatna zalihama.");
+            }
         }
-        
-        Console.WriteLine("Odaberite način plaćanja: 1. Kartice, 2. Novčanice, 3. Čekovi");
-        int izborPlacanja = Convert.ToInt32(Console.ReadLine());
-        
-        switch (izborPlacanja) {
-            case 1:
-                placanje = new Kartice();
-                break;
-            case 2:
-                placanje = new Novcanice();
-                break;
-            case 3:
-                placanje = new Cekovi();
-                break;
-            default:
-                Console.WriteLine("Nepoznat izbor plaćanja, kupovina otkazana.");
-                return;
+        else
+        {
+            Console.WriteLine("Proizvod nije pronađen.");
         }
-        
-        placanje.Plati(ukupanIznos);
-        Console.WriteLine("Hvala na kupovini!");
     }
 }

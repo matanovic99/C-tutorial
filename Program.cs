@@ -1,5 +1,7 @@
 ﻿class Program
 {
+    private static object proizvod;
+
     static void Main(string[] args)
     {
         Trgovina trgovina = new Trgovina();
@@ -36,14 +38,14 @@
 
                         Console.WriteLine("Informacije o proizvodu:");
                         Console.WriteLine($"Proizvod: {proizvod.Naziv}");
-                        Console.WriteLine($"Cijena: {proizvod.Cijena:C}");
-                        Console.WriteLine($"Stopa PDV-a: {proizvod.StopaPdv}%");
+                        Console.WriteLine(value: $"Cijena: {proizvod.cijenaProizvoda.Iznos:C}");
+                        Console.WriteLine($"Stopa PDV-a: {stopaPdv.iznos}%");
 
                         dostava.Isporuci();
 
-                    
+                    }
             }
         }
     }
-}
+
 
