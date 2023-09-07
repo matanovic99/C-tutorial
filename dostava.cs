@@ -1,15 +1,17 @@
 public class DostavaPostom : IDostava
 {
     public string TipDostave { get; set;} 
+    public string Ime {get; set;}
     public string Adresa { get; set;}
     public DateTime DatumDostave { get; set;}
 
-    public DostavaPostom(string adresa, DateTime datumDostave)
+    public DostavaPostom(string ime,string adresa, DateTime datumDostave)
 
     {
         this.TipDostave= "Dostava poštom";
-        Adresa = adresa;
-        DatumDostave = datumDostave;
+        this.Adresa = adresa;
+        this.DatumDostave = datumDostave;
+        this.Ime = ime;
     }
 
     public void Isporuci()
@@ -25,14 +27,17 @@ public class DostavaPostom : IDostava
 public class DostavaKurirskomSluzbom : IDostava
 {
     public string TipDostave { get; set; }  
+    public string Ime {get; set;}
     public string Adresa { get; set; }
     public DateTime DatumDostave { get; set; }
 
-    public DostavaKurirskomSluzbom(string adresa, DateTime datumDostave)
+    public DostavaKurirskomSluzbom(string ime, string adresa, DateTime datumDostave)
     {
         this.TipDostave= "Dostava kurirskom službom";
         this.Adresa = adresa;
         this.DatumDostave = datumDostave;
+        this.Ime = ime;
+        
     }
 
     public void Isporuci()
@@ -46,15 +51,19 @@ public class DostavaKurirskomSluzbom : IDostava
 
 public class OsobnoPreuzimanje : IDostava
 {
-     public string TipDostave { get; set; }  
+     public string TipDostave { get; set; } 
+     public string Ime {get; set;} 
     public string Adresa { get; set; }
+    
     public DateTime DatumDostave { get; set; }
 
-    public OsobnoPreuzimanje(string adresa, DateTime datumDostave)
+    public OsobnoPreuzimanje(string ime, string adresa, DateTime datumDostave)
     {
         this.TipDostave = "	Osobno preuzimanje";
         this.Adresa= adresa;
         this.DatumDostave = datumDostave ;
+        this.Ime = ime;
+
     }
      public void Isporuci()
     {

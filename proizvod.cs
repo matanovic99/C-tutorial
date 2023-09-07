@@ -13,6 +13,10 @@ public class Proizvod
         
     }
 }
+public interface IPlacanje {
+    void Plati(double ukupanIznos);
+}
+
 public interface IDostava
 {
      public string TipDostave {get; set;}

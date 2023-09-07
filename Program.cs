@@ -3,7 +3,7 @@
     private List<Proizvod> proizvodi = new List<Proizvod>();
 
 
-  
+
 
     static void Main(string[] args)
 
@@ -39,17 +39,21 @@
                 default:
                     Console.WriteLine("Nepoznat izbor, pokušajte ponovno.");
                     break;
-
-
-                
-                    
-                    
-
-                    
-
             }
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 

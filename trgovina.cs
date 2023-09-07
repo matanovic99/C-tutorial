@@ -37,44 +37,49 @@ public class Trgovina
                 double pdv = PDV.IzracunajPdv(odabraniProizvod);
                 Console.WriteLine($"Cijena sa Pdv: {pdv}");
 
+                Console.WriteLine("Koji nacin placanja zelite? :");
+                Console.WriteLine("*********************************************************");
+                Console.WriteLine("1.Placanje Karticom");
+                Console.WriteLine("*********************************************************");
+                Console.WriteLine("2.Placanje Cekom");
+                Console.WriteLine("*********************************************************");
+                Console.WriteLine("3.Placanje gotovinom");
+                Console.WriteLine("*********************************************************");
+
+               
 
                 Console.WriteLine("Koji tip dostave zelite:");
                 Console.WriteLine("*********************************************************");
-                Console.WriteLine("1. Kurirs");
+                Console.WriteLine("1.Dostava Kurirskom sluzbom");
                 Console.WriteLine("*********************************************************");
-                Console.WriteLine("2. posta");
+                Console.WriteLine("2.Dostava postom");
                 Console.WriteLine("*********************************************************");
-                Console.WriteLine("3. osobno");
+                Console.WriteLine("3.Osobno preuzimanje");
                 Console.WriteLine("*********************************************************");
                 int tipDostave = Convert.ToInt32(Console.ReadLine());
-                Console.Write("Unesite adresu dostave: ");
+                Console.WriteLine(" adresa dostave: ");
                 string adresa = Console.ReadLine();
+                Console.WriteLine("ime i prezime: ");
+                string ime = Console.ReadLine();
                 IDostava dostava = null;
                 if (tipDostave == 1)
                 {
-                     dostava = new DostavaKurirskomSluzbom(adresa, DateTime.Now.AddDays(2));
+                     dostava = new DostavaKurirskomSluzbom(ime, adresa, DateTime.Now.AddDays(2));
 
 
                 }
                 else if (tipDostave == 2)
                 {
-                    dostava = new DostavaPostom(adresa, DateTime.Now.AddDays(2));
+                    dostava = new DostavaPostom(ime, adresa, DateTime.Now.AddDays(2));
 
                 }
                 else  
                 {
-                     dostava = new OsobnoPreuzimanje(adresa, DateTime.Now.AddDays(2));
+                     dostava = new OsobnoPreuzimanje(ime, adresa, DateTime.Now.AddDays(2));
 
                 }
                 
                 dostava.Isporuci();
-
-               
-
-
-
-
-
 
                 odabraniProizvod.KolicinaNaStanju -= kolicina;
             }
@@ -89,3 +94,10 @@ public class Trgovina
         }
     }
 }
+
+               
+
+
+
+
+
