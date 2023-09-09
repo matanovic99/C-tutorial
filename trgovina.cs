@@ -36,50 +36,30 @@ public class Trgovina
                 Console.WriteLine($"Ukupna cijena: {ukupnaCijena:C}");
                 double pdv = PDV.IzracunajPdv(odabraniProizvod);
                 Console.WriteLine($"Cijena sa Pdv: {pdv}");
+                Console.WriteLine("Odaberite način plaćanja: 1. Kartice, 2. Novčanice, 3. Čekovi");
+                int izborPlacanja = Convert.ToInt32(Console.ReadLine());
 
-                Console.WriteLine("Koji nacin placanja zelite? :");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine("1.Placanje Karticom");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine("2.Placanje Cekom");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine("3.Placanje gotovinom");
-                Console.WriteLine("*********************************************************");
+                Placanje placanje = null;
 
-               
-
-                Console.WriteLine("Koji tip dostave zelite:");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine("1.Dostava Kurirskom sluzbom");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine("2.Dostava postom");
-                Console.WriteLine("*********************************************************");
-                Console.WriteLine("3.Osobno preuzimanje");
-                Console.WriteLine("*********************************************************");
-                int tipDostave = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine(" adresa dostave: ");
-                string adresa = Console.ReadLine();
-                Console.WriteLine("ime i prezime: ");
-                string ime = Console.ReadLine();
-                IDostava dostava = null;
-                if (tipDostave == 1)
+                switch (izborPlacanja)
                 {
-                     dostava = new DostavaKurirskomSluzbom(ime, adresa, DateTime.Now.AddDays(2));
-
-
+                    case 1:
+                        placanje = new Kartice();
+                        break;
+                    case 2:
+                        placanje = new Novcanice();
+                        break;
+                    case 3:
+                        placanje = new Cekovi();
+                        break;
+                    default:
+                        Console.WriteLine("Nepoznat izbor plaćanja, kupovina otkazana.");
+                        return;
                 }
-                else if (tipDostave == 2)
-                {
-                    dostava = new DostavaPostom(ime, adresa, DateTime.Now.AddDays(2));
 
-                }
-                else  
-                {
-                     dostava = new OsobnoPreuzimanje(ime, adresa, DateTime.Now.AddDays(2));
+                placanje.Plati(ukupnaCijena);
+                Console.WriteLine("Hvala na kupovini!");
 
-                }
-                
-                dostava.Isporuci();
 
                 odabraniProizvod.KolicinaNaStanju -= kolicina;
             }
@@ -92,12 +72,37 @@ public class Trgovina
         {
             Console.WriteLine("Proizvod nije pronađen.");
         }
+        Console.WriteLine("Koji tip dostave zelite:");
+        Console.WriteLine("*********************************************************");
+        Console.WriteLine("1.Dostava Kurirskom sluzbom");
+        Console.WriteLine("*********************************************************");
+        Console.WriteLine("2.Dostava postom");
+        Console.WriteLine("*********************************************************");
+        Console.WriteLine("3.Osobno preuzimanje");
+        Console.WriteLine("*********************************************************");
+        int tipDostave = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine(" adresa dostave: ");
+        string adresa = Console.ReadLine();
+        Console.WriteLine("ime i prezime: ");
+        string ime = Console.ReadLine();
+        IDostava dostava = null;
+        if (tipDostave == 1)
+        {
+            dostava = new DostavaKurirskomSluzbom(ime, adresa, DateTime.Now.AddDays(2));
+
+
+        }
+        else if (tipDostave == 2)
+        {
+            dostava = new DostavaPostom(ime, adresa, DateTime.Now.AddDays(2));
+
+        }
+        else
+        {
+            dostava = new OsobnoPreuzimanje(ime, adresa, DateTime.Now.AddDays(2));
+
+        }
+
+        dostava.Isporuci();
     }
 }
-
-               
-
-
-
-
-

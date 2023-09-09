@@ -21,3 +21,13 @@ public class Cekovi : Placanje {
         Console.WriteLine($"Plaćanje čekovima u iznosu od {ukupanIznos:C2} je uspješno izvršeno.");
     }
 }
+
+
+
+               
+
+
+
+
+
+
