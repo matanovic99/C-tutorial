@@ -58,7 +58,7 @@ public class Trgovina
                 }
 
                 placanje.Plati(ukupnaCijena);
-                Console.WriteLine("Hvala na kupovini!");
+                
 
 
                 odabraniProizvod.KolicinaNaStanju -= kolicina;
